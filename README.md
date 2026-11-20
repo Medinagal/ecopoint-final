@@ -36,6 +36,10 @@ The default collector can service all seven stations. The default manager is ass
 - Campaigns and manager statistics.
 - Profile updates and password changes.
 - Russian, Kazakh, and English interfaces.
+- FAQ and first-use guidance.
+- Display of deposited unit counts and corresponding total weight separately for each material.
+- Detailed downloadable deposit receipts.
+- Administrator access to deposit history and session details.
 
 Shared data refreshes approximately every five seconds. For example, a resident's support request appears in the administrator's queue, and a collector's station-emptying action updates the fill level for other users.
 
@@ -70,7 +74,9 @@ npm run dev
 
 Open:
 
+```text
 http://localhost:5173
+```
 
 The setup script generates an initial password in the local `.env` file. Local data is stored in `.data/ecopoint.sqlite`.
 
@@ -144,6 +150,10 @@ The following IDs must match the final SRS, traceability matrix, acceptance test
 | FR-23 | Revoke sessions when account access or roles change | AT-13 |
 | FR-24 | Retain committed data after a server restart | AT-14 |
 | FR-25 | Maintain an administrator-only audit trail without authentication secrets | AT-15 |
+| FR-26 | Provide residents with FAQ information and first-use guidance | AT-22 |
+| FR-27 | Display the number of deposited units and their corresponding total weight separately for each material | AT-23 |
+| FR-28 | Generate detailed deposit receipts and allow residents to download them | AT-24 |
+| FR-29 | Allow administrators to view deposit history and session details | AT-25 |
 
 ## API
 
@@ -268,8 +278,9 @@ Map attribution is displayed in the application. Original third-party license no
 
 ## AI disclosure
 
-ChatGPT / Codex assisted with code development and corrections.
+AI tools were used as development and documentation assistance during the project.
 
-Before submission, the team must specify the exact AI models actually used and describe their uses in the AI Disclosure Statement.
+- **ChatGPT (GPT-6):** Used for frontend and backend code generation and refinement, implementation of application functions, debugging, integration support, technical explanations, and documentation.
+- **Claude (Sonnet 5.5):** Used to a limited extent during the early prototype stages for development assistance and review of diagrams.
 
-The team is responsible for reviewing the implementation. Every member must be able to explain the requirements, diagrams, and code during the defense.
+AI-generated suggestions and code were reviewed and checked by the team. The team is responsible for the final requirements, system models, implementation decisions, analysis, testing, and conclusions. Every team member must be able to explain the requirements, diagrams, and code during the defense.
