@@ -243,17 +243,11 @@ At least three people outside the team must try the main use case. Report their 
 
 ## Demo video
 
-Pending: replace this paragraph with the university OneDrive viewing link after recording the video.
+The demo video presents the key features of the EcoPoint prototype and demonstrates its functionality from two user perspectives: Resident and Administrator.
 
-The video must:
+It covers the main recycling process, including station selection, QR-linked deposit simulation, points crediting, and transaction history. The Administrator view demonstrates access to deposit records and management functions.
 
-- Be no longer than three minutes.
-- Show login under at least two different roles.
-- Demonstrate the main use case and saved data.
-- Identify the demonstrated requirement IDs.
-- Exclude passwords, `.env` contents, and real personal data.
-
-File name: `TeamNN_FP_Demo.mp4`, replacing NN with the actual team number.
+The video highlights the relevant functional requirements and shows how the system stores and displays data using fictional test accounts.
 
 ## Repository access and team contributions
 
