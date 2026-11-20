@@ -2,35 +2,64 @@ Educational project for the course Business Analysis, Astana IT University. Not 
 
 # EcoPoint
 
-Учебное приложение с четырьмя ролями, общим API и серверной базой данных.
-Коллектор обслуживает все семь станций. Менеджер — станции ES-1–ES-3.
+EcoPoint is an educational recycling application with four user roles, a shared backend, and a database. It demonstrates recycling deposits, points, station servicing, and administrative review.
 
-**Пошаговый запуск и публикация описаны в [START_HERE_RU.txt](START_HERE_RU.txt).**
+## Application link
 
-## Возможности
+[Open EcoPoint](https://ecopoint-final.netlify.app)
 
-Сдача отходов с имитацией подсчёта предметов и взвешивания, тарифы за грамм,
-начисление баллов, история, скачиваемые чеки, отзывы, жалобы и ответы администратора,
-вывоз отходов, акции, статистика и управление учебными аккаунтами.
-Интерфейс на русском, казахском и английском. Общие данные обновляются раз в пять секунд
-с учётом незавершённых форм.
+The prototype is intended for the project team, invited testers, and the instructor. Use fictional data only. Recycling equipment and financial transactions are simulated.
 
-## Технологии и хранение
+## User roles
 
-Frontend — HTML/CSS/JavaScript. Backend — JavaScript и Netlify Function.
-В Netlify используется PostgreSQL через @netlify/database.
-Локально — Node.js 24 и SQLite с файлом .data/ecopoint.sqlite.
+| Role | Main permissions |
+|---|---|
+| Resident | Find stations, submit simulated deposits, view points and receipts, submit feedback and support requests, update their profile |
+| Collector | View assigned stations, confirm collection visits, and empty stations |
+| Manager | View statistics for assigned stations and manage campaigns |
+| Administrator | Review deposits, manage test accounts, respond to support requests, and view audit records |
 
-Данные хранятся в таблице ecopoint_state как версионированное JSON-состояние.
-Условное SQL-обновление предотвращает потерю конкурентных изменений.
-Состав состояния — пользователи, сессии, станции, сдачи, журнал баллов, чеки,
-вывозы, акции, обращения, оценки, заявки на удаление, выплаты и аудит.
-Это модель хранения учебной демонстрации. ERD должна отражать эту реализацию
-либо отдельно описывать логические сущности.
+The default collector can service all seven stations. The default manager is assigned stations ES-1 through ES-3.
 
-## Локальный запуск
+## Main features
 
-Установите Node.js 24 или новее. В папке проекта выполните:
+- Authentication and server-side role permissions.
+- Station map with filters for accepted materials.
+- Shared station fill levels.
+- Station QR validation.
+- Simulated recycling deposits and point calculation.
+- Administrative review of incomplete or disputed deposit data.
+- Deposit history, expandable receipts, and receipt downloads.
+- Collector visits and station emptying.
+- Support requests and administrator replies.
+- Feedback and application ratings.
+- Campaigns and manager statistics.
+- Profile updates and password changes.
+- Russian, Kazakh, and English interfaces.
+
+Shared data refreshes approximately every five seconds. For example, a resident's support request appears in the administrator's queue, and a collector's station-emptying action updates the fill level for other users.
+
+## Technology stack
+
+| Component | Technology |
+|---|---|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | JavaScript and Netlify Function |
+| Hosted database | PostgreSQL through @netlify/database |
+| Local runtime | Node.js 24 or later |
+| Local database | SQLite |
+
+The browser interface communicates with a shared API. Business operations and access permissions are validated on the server.
+
+The database stores versioned JSON state in the `ecopoint_state` table. Conditional updates prevent concurrent requests from overwriting committed changes.
+
+Logical entities include users, sessions, stations, deposits, receipts, point transactions, collection visits, campaigns, support requests, ratings, simulated payouts, and audit events. The logical data model must be distinguished from the physical single-table storage implementation.
+
+## Local installation and execution
+
+Install Node.js 24 or later.
+
+From the project directory, run:
 
 ```sh
 npm ci
@@ -39,49 +68,121 @@ npm run build
 npm run dev
 ```
 
-Откройте http://localhost:5173. Setup генерирует пароль в локальном .env.
-Последующие запуски — npm run dev.
-Сервер слушает 127.0.0.1.
+Open:
 
-## Учебные аккаунты
+http://localhost:5173
 
-| Роль | Логин |
+The setup script generates an initial password in the local `.env` file. Local data is stored in `.data/ecopoint.sqlite`.
+
+For subsequent launches, run:
+
+```sh
+npm run dev
+```
+
+The Russian setup guide is available in [START_HERE_RU.txt](START_HERE_RU.txt).
+
+## Test accounts
+
+| Role | Login |
 |---|---|
-| Житель | resident@example.test |
-| Второй житель | resident2@example.test |
-| Коллектор | collector@example.test |
-| Менеджер | manager@example.test |
-| Администратор | admin@example.test |
+| Resident | resident@example.test |
+| Second resident | resident2@example.test |
+| Collector | collector@example.test |
+| Manager | manager@example.test |
+| Administrator | admin@example.test |
 
-Локальный пароль находится в .env.
-На Netlify начальный пароль задаётся владельцем в секретной переменной
-EP_BOOTSTRAP_PASSWORD (16–128 символов).
-Преподавателю пароль передаётся лично.
-Переменная применяется при создании новой базы, затем пароли хранятся в виде
-солёных PBKDF2-SHA256-хешей. Смена переменной не меняет существующие пароли.
-Житель меняет собственный пароль в настройках после ввода текущего.
-Смена пароля отзывает остальные сессии этого аккаунта.
-Сессии используют HttpOnly-cookie, SameSite=Strict и Secure на HTTPS.
-Сервер проверяет роли, доступ к объектам и срок действия сессии.
+Passwords are provided privately by the project owner.
 
-## Netlify
+For local execution, the initial password is stored in `.env`. On Netlify, the initial password is configured through the secret environment variable `EP_BOOTSTRAP_PASSWORD`.
 
-Подключите репозиторий через Import an existing project.
-Build command — npm run build. Publish directory — public.
-Functions directory — netlify/functions. Base directory — пусто.
-Версия Node — 24. Настройки находятся в netlify.toml.
-В Environment variables задайте EP_BOOTSTRAP_PASSWORD в области Functions.
-Миграция netlify/database/migrations/0001_ecopoint.sql создаёт таблицу PostgreSQL.
-Проверьте создание базы в Data & Storage → Database.
-Netlify Database использует кредиты credit-based plans.
-По условиям курса используйте бесплатный вариант без банковской карты
-и ограничьте доступ к размещённому прототипу.
-Пошаговые действия и бесплатный локальный запуск — в START_HERE_RU.txt.
+This variable initializes test accounts in a new database. Changing its value later does not reset existing account passwords.
 
-Новое размещение использует свою базу. Данные других сайтов и автономных
-HTML-файлов автоматически в неё не переносятся.
+Do not publish actual passwords in this README, GitHub commits, screenshots, or the demonstration video.
 
-## Проверка
+## Security
+
+- Passwords are stored as salted PBKDF2-SHA256 hashes.
+- The backend checks user roles and access to individual records.
+- Residents can access only their own private records.
+- Session cookies use HttpOnly, SameSite=Strict, and Secure over HTTPS.
+- Changing a resident's password revokes their other sessions.
+- Repeated requests are controlled to prevent duplicate point credits.
+- Administrative decisions record the actor, reason, and timestamp.
+- Audit records exclude authentication secrets.
+
+Keep `.env`, local databases, API keys, and database connection strings out of Git. The supplied `.gitignore` excludes local secrets and runtime data. `.env.example` contains an empty configuration template.
+
+## Implemented requirements
+
+The following IDs must match the final SRS, traceability matrix, acceptance tests, and presentation.
+
+| ID | Requirement | Test reference |
+|---|---|---|
+| FR-01 | Authenticate fictional test accounts using salted password hashes | AT-01 |
+| FR-02 | Enforce role permissions, session expiry, and logout on the server | AT-01, AT-16, AT-19 |
+| FR-03 | Display shared station capabilities and prevent deposits at full stations | AT-02, AT-18 |
+| FR-04 | Validate a station QR reference and issue a five-minute deposit session | AT-02, AT-17 |
+| FR-05 | Require explicit deposit submission and prevent credits for cancelled deposits | AT-02, AT-17 |
+| FR-06 | Return the same account balance and history on another device | AT-03 |
+| FR-07 | Restrict private resident records to their owner | AT-03 |
+| FR-08 | Credit each event at most once and reject conflicting repeated requests | AT-04 |
+| FR-09 | Retain incomplete deposit evidence without automatically issuing points or a penalty | AT-05 |
+| FR-10 | Allow only an administrator to approve or reject disputed deposit evidence | AT-06 |
+| FR-11 | Record the actor, reason, and timestamp of a deposit decision | AT-06 |
+| FR-12 | Debit reward points atomically and issue a unique demonstration reference | AT-07 |
+| FR-13 | Require a matching station QR and collector permissions for servicing | AT-08 |
+| FR-14 | Record collection visits and publish station fill updates to other devices | AT-08 |
+| FR-15 | Apply an eligible campaign to new sessions, with a maximum multiplier of two | AT-09 |
+| FR-16 | Restrict manager statistics to assigned stations | AT-09 |
+| FR-17 | Store resident complaints in a shared administrative queue | AT-10 |
+| FR-18 | Deliver administrator replies to the complaint owner | AT-10 |
+| FR-19 | Reserve points for simulated payouts and complete or release reservations | AT-11 |
+| FR-20 | Save fictional profile updates on the server | AT-12 |
+| FR-21 | Record account deletion requests without claiming immediate deletion | AT-12 |
+| FR-22 | Allow administrators to create, block, and deactivate test accounts | AT-13 |
+| FR-23 | Revoke sessions when account access or roles change | AT-13 |
+| FR-24 | Retain committed data after a server restart | AT-14 |
+| FR-25 | Maintain an administrator-only audit trail without authentication secrets | AT-15 |
+
+## API
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | /api/health | Check database connectivity |
+| POST | /api/login | Authenticate a test account |
+| POST | /api/logout | End the current session |
+| GET | /api/state | Retrieve data permitted for the current account |
+| POST | /api/action | Execute validated business operations |
+
+The server generates item counts and mass estimates for simulated deposits. Users cannot directly supply their own awarded points or equipment measurements.
+
+## Netlify deployment
+
+The project is deployed from the GitHub repository.
+
+| Setting | Value |
+|---|---|
+| Branch | main |
+| Base directory | Leave empty |
+| Build command | npm run build |
+| Publish directory | public |
+| Functions directory | netlify/functions |
+| Node.js version | 24 |
+
+Deployment settings are included in `netlify.toml`.
+
+Set `EP_BOOTSTRAP_PASSWORD` as a secret environment variable available to Functions.
+
+The migration at `netlify/database/migrations/0001_ecopoint.sql` creates the PostgreSQL state table. Check database provisioning under Data & Storage → Database.
+
+Use only a free hosting option that does not require a payment card, as required by the course. Restrict prototype access to the intended audience. Local execution is also supported.
+
+A new deployment uses its own database. Data from older sites or standalone HTML previews is not transferred automatically.
+
+## Testing and validation
+
+Run:
 
 ```sh
 npm test
@@ -89,80 +190,86 @@ npm run build
 npm run check
 ```
 
-Серверные проверки выполняются на SQLite и на PostgreSQL-движке PGlite
-через обработчик Netlify. Включены независимые сессии, разделение ролей,
-общие жалобы и заполненность, повторы, конкурентные запросы и сохранение данных.
-test-results.json и test-results-postgres.json содержат результаты.
+Server checks cover SQLite and the PostgreSQL engine PGlite through the Netlify handler and database adapter.
 
-Отдельная проверка интерфейса в JSDOM использует пять независимых сессий
-для четырёх ролей. Это программная проверка интерфейса.
-Настоящие браузеры, камера телефона, реальная инфраструктура Netlify и внешние
-сервисы после публикации проверяются отдельно.
+The checks include:
 
-## Implemented requirements
+- Authentication and role permissions.
+- Independent user sessions.
+- Shared complaints and administrator replies.
+- Shared station fill levels.
+- Repeated and concurrent requests.
+- Point credits and simulated transactions.
+- Data persistence.
 
+Results are included in:
 
-| ID | The system shall… | Endterm | Test |
-|---|---|---|---|
-| FR-01 | authenticate fictional accounts using a salted password hash | F01 | AT-01 |
-| FR-02 | enforce role permissions, session expiry and logout on the server | F01 | AT-01,16,19 |
-| FR-03 | expose shared station capabilities and refuse a full station | F02 | AT-02,18 |
-| FR-04 | validate a station QR reference and issue a five-minute session | F04 | AT-02,17 |
-| FR-05 | require explicit submission; cancellation shall not credit points | F04 | AT-02,17 |
-| FR-06 | return the same account balance/history on another device | F05 | AT-03 |
-| FR-07 | restrict resident records to their owner | F05 | AT-03 |
-| FR-08 | commit at most one credit per event and reject conflicting idempotency payloads | F08 | AT-04 |
-| FR-09 | retain incomplete evidence without a credit or strike and reconcile it | F08 | AT-05 |
-| FR-10 | allow only an administrator to approve or reject disputed evidence | F14 | AT-06 |
-| FR-11 | record an evidence decision with actor, reason and timestamp | F14 | AT-06 |
-| FR-12 | atomically debit a reward and issue its unique demonstration reference | F06 | AT-07 |
-| FR-13 | require matching station QR and collector scope for servicing | F09 | AT-08 |
-| FR-14 | record one visit per visit ID and publish its fill update to other devices | F09 | AT-08 |
-| FR-15 | apply a shared campaign to eligible new sessions only, at most ×2 | F11 | AT-09 |
-| FR-16 | expose aggregate statistics only for a manager's assigned stations | F10 | AT-09 |
-| FR-17 | store a resident's complaint in a shared administrative queue | supporting | AT-10 |
-| FR-18 | deliver administrator replies to the complaint's owner | supporting | AT-10 |
-| FR-19 | reserve simulated payout points and retain, complete or release the reservation | F07 | AT-11 |
-| FR-20 | save a fictional profile on the server | F15 | AT-12 |
-| FR-21 | track an account deletion request without claiming immediate erasure | F16 | AT-12 |
-| FR-22 | allow administrators to create, block and deactivate accounts | F13 | AT-13 |
-| FR-23 | revoke sessions when access or role changes | F13 | AT-13 |
-| FR-24 | retain committed data after a server restart | IF-01 | AT-14 |
-| FR-25 | retain an administrator-only audit trail excluding authentication secrets | COM-08 | AT-15 |
+- `test-results.json`
+- `test-results-postgres.json`
 
+Separate JSDOM interface checks use five independent sessions across four roles. Automated tests do not replace real-browser, phone-camera, deployed-infrastructure, or external-user testing.
 
-## API
+For the final submission, document at least 10 acceptance tests with the following fields:
 
-GET /api/health — проверка соединения с базой.
-POST /api/login — вход.
-POST /api/logout — выход.
-GET /api/state — разрешённые текущему аккаунту данные.
-POST /api/action — бизнес-операции с серверной валидацией.
+| Field | Description |
+|---|---|
+| Test ID | Unique acceptance test identifier |
+| Requirement ID | Related functional requirement |
+| Steps | Actions performed by the tester |
+| Test data | Fictional accounts and input values |
+| Expected result | Required system behaviour |
+| Actual result | Observed system behaviour |
+| Status | Pass or Fail |
 
-Сервер определяет количество и вес в учебном симуляторе.
-Пользователь не вводит баллы или измерения.
-Реальное оборудование и денежные переводы имитируются.
+At least three people outside the team must try the main use case. Report their findings anonymously and describe the changes made in response. Record only testing that actually took place.
 
-## Секреты и данные
+## Known limitations
 
-.env и .data включены в .gitignore. В GitHub загружайте только исходники.
-.env.example содержит пустые шаблоны. Действующих паролей, ключей,
-содержимого баз и привязки к чужому хостингу в архиве нет.
-Используйте только вымышленные имена и тестовые данные.
+- Recycling equipment, item counts, and mass measurements are simulated.
+- Rewards and payouts do not involve real financial transactions.
+- Shared updates use periodic refresh rather than a permanent real-time connection.
+- The physical database uses a versioned JSON state table.
+- Hardware integration and production operation are outside the prototype scope.
 
-## Демовидео
+## Demo video
 
-Ссылка на университетский OneDrive добавляется командой после записи.
+Pending: replace this paragraph with the university OneDrive viewing link after recording the video.
 
-## Credits and AI disclosure
+The video must:
 
-Сохранён исходный интерфейс EcoPoint команды проекта.
-QR generation — Kazuhiko Arase qrcode-generator, MIT.
-QR decoding — jsQR, Apache-2.0.
-Map — Leaflet 1.9.4, BSD-2-Clause, атрибуция карт показана в интерфейсе.
-Font — Unbounded, SIL Open Font License.
-Исходные лицензионные уведомления библиотек сохранены.
+- Be no longer than three minutes.
+- Show login under at least two different roles.
+- Demonstrate the main use case and saved data.
+- Identify the demonstrated requirement IDs.
+- Exclude passwords, `.env` contents, and real personal data.
 
-Разработка и исправления кода выполнялись с помощью ChatGPT / Codex.
-Команда должна указать использованные в своей работе модели в AI Disclosure,
-проверить код и уметь объяснить его на защите.
+File name: `TeamNN_FP_Demo.mp4`, replacing NN with the actual team number.
+
+## Repository access and team contributions
+
+The repository is private. The instructor and team members must be invited as collaborators.
+
+Each team member must commit their own actual contributions from their own GitHub account.
+
+Application credentials are provided to the instructor privately.
+
+## Third-party credits
+
+The application preserves the EcoPoint project team's original interface.
+
+| Component | Attribution and license |
+|---|---|
+| QR generation | Kazuhiko Arase, qrcode-generator — MIT |
+| QR decoding | jsQR — Apache-2.0 |
+| Map library | Leaflet 1.9.4 — BSD-2-Clause |
+| Font | Unbounded — SIL Open Font License |
+
+Map attribution is displayed in the application. Original third-party license notices are retained.
+
+## AI disclosure
+
+ChatGPT / Codex assisted with code development and corrections.
+
+Before submission, the team must specify the exact AI models actually used and describe their uses in the AI Disclosure Statement.
+
+The team is responsible for reviewing the implementation. Every member must be able to explain the requirements, diagrams, and code during the defense.
