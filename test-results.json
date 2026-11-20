@@ -1,0 +1,132 @@
+{
+  "environment": "v24.22.3 / SQLite and Worker handler",
+  "at": "2026-11-20T10:44:23.667Z",
+  "results": [
+    {
+      "id": "AT-01",
+      "fr": "FR-01,FR-02",
+      "title": "Authentication required; demo bypass rejected",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-02",
+      "fr": "FR-03,FR-04,FR-05",
+      "title": "Station discovery, QR and explicit deposit completion",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-03",
+      "fr": "FR-06,FR-07",
+      "title": "Same account across devices; other resident privacy",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-04",
+      "fr": "FR-08",
+      "title": "Concurrent duplicate deposit creates one credit",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-05",
+      "fr": "FR-09",
+      "title": "Incomplete evidence: no points, no strike; reconciliation once",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-06",
+      "fr": "FR-10,FR-11",
+      "title": "Admin review and rejection with reason; manager denied",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-07",
+      "fr": "FR-12",
+      "title": "Rewards: atomic debit, unique code and insufficient funds",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-08",
+      "fr": "FR-13,FR-14",
+      "title": "Collector QR, scope, idempotent visit and shared fill",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-20",
+      "fr": "FR-13,FR-14",
+      "title": "An already signed-in collector receives the upgraded scope without losing existing data",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-09",
+      "fr": "FR-15,FR-16",
+      "title": "Shared campaigns and scoped aggregate statistics",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-10",
+      "fr": "FR-17,FR-18",
+      "title": "Shared support and resident isolation",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-11",
+      "fr": "FR-19",
+      "title": "Payout reservation, failure release, success, pending retry",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-12",
+      "fr": "FR-20,FR-21",
+      "title": "Profile and tracked deletion requests across devices",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-13",
+      "fr": "FR-22,FR-23",
+      "title": "Account administration and session revocation",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-14",
+      "fr": "FR-24",
+      "title": "Durable state survives SQLite close and reopen",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-15",
+      "fr": "FR-25",
+      "title": "Audit trail excludes passwords and cookie tokens",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-16",
+      "fr": "FR-02",
+      "title": "Cross-origin writes denied, session logout and login throttling",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-17",
+      "fr": "FR-04,FR-05",
+      "title": "Cancelled and expired sessions never credit",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-18",
+      "fr": "FR-03",
+      "title": "Full station refusal uses shared server state",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-19",
+      "fr": "FR-02",
+      "title": "Absolute session expiry enforced",
+      "result": "PASS"
+    },
+    {
+      "id": "AT-21",
+      "fr": "OPERATIONS",
+      "title": "Health checks database connectivity without creating users",
+      "result": "PASS"
+    }
+  ]
+}

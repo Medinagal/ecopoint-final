@@ -1,0 +1,5 @@
+CREATE TABLE ecopoint_state (
+ id TEXT PRIMARY KEY NOT NULL,
+ version INTEGER NOT NULL DEFAULT 0,
+ body TEXT NOT NULL
+);
