@@ -6,6 +6,14 @@ EcoPoint is a classroom prototype of a residential recycling service. It brings 
 
 EcoPoint is a learning prototype, not an operating recycling service. Station information, QR references, item counts, weights, points and transactions are simulated. The application is not connected to physical recycling equipment, calibrated scales, banks or real reward providers.
 
+## Live Prototype
+
+The deployed EcoPoint prototype is available at:
+
+**https://ecopoint-final.netlify.app**
+
+This version is provided for demonstration and educational purposes. Use fictional test accounts and data only.
+
 ## What the application does
 
 - **Resident:** browse the station map, filter by accepted material, check the displayed fill level, complete a QR-linked or demo deposit, view points and deposit history, download a receipt, use the Guide/FAQ and contact support.
